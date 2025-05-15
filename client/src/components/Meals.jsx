@@ -2,20 +2,22 @@ import MealItem from "./MealItem.jsx";
 import useHttp from "../hooks/useHttp.js";
 import Error from "./Error.jsx";
 
-const requestConfig = {}
+const requestConfig = {};
 
 export default function Meals() {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const {
     data: loadedMeals,
     isLoading,
     error,
-  } = useHttp("http://localhost:3000/meals", requestConfig, []);
+  } = useHttp(`${apiUrl}/meals`, requestConfig, []);
 
   if (isLoading) {
     return <p className="center">Fetching Meals...</p>;
   }
 
-  if(error){
+  if (error) {
     return <Error title="Failed to fetch meals" message={error} />;
   }
 
