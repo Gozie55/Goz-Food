@@ -3,35 +3,26 @@ dotenv.config();
 
 import express from "express";
 import bodyParser from "body-parser";
-import path from "path"; // ✨ Added to resolve paths
-import { fileURLToPath } from "url"; // ✨ Added for ESM compatibility
 import { connectToDatabase } from "./db.js";
 import Meal from "./models/Meal.js";
 import Order from "./models/Order.js";
 
 const app = express();
 
-// ✨ Required to get __dirname in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 // Connect to MongoDB using the URI from .env
 await connectToDatabase(process.env.MONGODB_URI);
 
 app.use(bodyParser.json());
 
-// ✨ Serve static assets from the Vite build (React)
-app.use(express.static(path.join(__dirname, "../client/dist"))); // Adjust path if needed
-
-// CORS headers
+// ✅ Allow frontend to connect (CORS)
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*"); // For production, use your frontend URL instead
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 
-// API routes
+// ✅ API routes
 app.get("/meals", async (req, res) => {
   try {
     const meals = await Meal.find();
@@ -67,12 +58,7 @@ app.post("/orders", async (req, res) => {
   }
 });
 
-// ✨ Serve index.html for all unmatched routes (SPA support)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-});
-
-// Start server
+// ✅ Start server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
