@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 // ✅ Allow frontend to connect (CORS)
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // For production, use your frontend URL instead
+  res.setHeader("Access-Control-Allow-Origin", "https://goz-food-frontend.onrender.com"); 
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
