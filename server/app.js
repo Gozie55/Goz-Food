@@ -14,6 +14,9 @@ await connectToDatabase(process.env.MONGODB_URI);
 
 app.use(bodyParser.json());
 
+app.use("/images", express.static(path.join(__dirname, "public/images")));
+
+
 // ✅ Allow frontend to connect (CORS)
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "https://goz-food-client.onrender.com"); 
