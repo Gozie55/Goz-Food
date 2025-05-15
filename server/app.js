@@ -6,16 +6,22 @@ import bodyParser from "body-parser";
 import { connectToDatabase } from "./db.js";
 import Meal from "./models/Meal.js";
 import Order from "./models/Order.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// ✅ Fix for __dirname in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Connect to MongoDB using the URI from .env
+// ✅ Connect to MongoDB using the URI from .env
 await connectToDatabase(process.env.MONGODB_URI);
 
 app.use(bodyParser.json());
 
+// ✅ Serve images from public/images
 app.use("/images", express.static(path.join(__dirname, "public/images")));
-
 
 // ✅ Allow frontend to connect (CORS)
 app.use((req, res, next) => {
