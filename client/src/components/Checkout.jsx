@@ -6,7 +6,7 @@ import Button from "./UI/Button";
 import { UserProgressContext } from "../store/UserProgressContext"; // Corrected import
 import useHttp from "../hooks/useHttp";
 
-import Input from "./UI/Input"; // Ensure this import is correct
+import Input from "./UI/input"; // Ensure this import is correct
 
 const requestConfig = {
   method: "POST",
