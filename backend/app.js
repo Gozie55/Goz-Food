@@ -1,9 +1,16 @@
-import fs from "node:fs/promises";
+import dotenv from "dotenv";
+dotenv.config();
 
-import bodyParser from "body-parser";
 import express from "express";
+import bodyParser from "body-parser";
+import { connectToDatabase } from "./db.js";
+import Meal from "./models/Meal.js";
+import Order from "./models/Order.js";
 
 const app = express();
+
+// Connect to MongoDB using the URI from .env
+await connectToDatabase(process.env.MONGODB_URI);
 
 app.use(bodyParser.json());
 app.use(express.static("public"));
@@ -15,49 +22,41 @@ app.use((req, res, next) => {
   next();
 });
 
+// Get meals from MongoDB
 app.get("/meals", async (req, res) => {
-  const meals = await fs.readFile("./data/available-meals.json", "utf8");
-  res.json(JSON.parse(meals));
+  try {
+    const meals = await Meal.find();
+    res.json(meals);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to load meals" });
+  }
 });
 
+// Create a new order in MongoDB
 app.post("/orders", async (req, res) => {
   const orderData = req.body.order;
 
   if (
-    orderData === null ||
-    orderData.items === null ||
-    orderData.items.length === 0
-  ) {
-    return res.status(400).json({ message: "Missing data." });
-  }
-
-  if (
-    orderData.customer.email === null ||
-    !orderData.customer.email.includes("@") ||
-    orderData.customer.name === null ||
-    orderData.customer.name.trim() === "" ||
-    orderData.customer.street === null ||
-    orderData.customer.street.trim() === "" ||
-    orderData.customer["postal-code"] === null ||
-    orderData.customer["postal-code"].trim() === "" ||
-    orderData.customer.city === null ||
-    orderData.customer.city.trim() === ""
+    !orderData ||
+    !orderData.items?.length ||
+    !orderData.customer?.email?.includes("@") ||
+    !orderData.customer?.name?.trim() ||
+    !orderData.customer?.street?.trim() ||
+    !orderData.customer["postal-code"]?.trim() ||
+    !orderData.customer?.city?.trim()
   ) {
     return res.status(400).json({
-      message:
-        "Missing data: Email, name, street, postal code or city is missing.",
+      message: "Missing or invalid order/customer data.",
     });
   }
 
-  const newOrder = {
-    ...orderData,
-    id: (Math.random() * 1000).toString(),
-  };
-  const orders = await fs.readFile("./data/orders.json", "utf8");
-  const allOrders = JSON.parse(orders);
-  allOrders.push(newOrder);
-  await fs.writeFile("./data/orders.json", JSON.stringify(allOrders));
-  res.status(201).json({ message: "Order created!" });
+  try {
+    const newOrder = new Order(orderData);
+    await newOrder.save();
+    res.status(201).json({ message: "Order created!" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to create order." });
+  }
 });
 
 app.use((req, res) => {
@@ -68,4 +67,9 @@ app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
-app.listen(3000);
+// Use port from .env or default to 3000
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
