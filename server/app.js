@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.
+config();
 
 import express from "express";
 import bodyParser from "body-parser";
@@ -8,6 +9,7 @@ import Meal from "./models/Meal.js";
 import Order from "./models/Order.js";
 import path from "path";
 import { fileURLToPath } from "url";
+
 
 // ✅ Fix for __dirname in ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +29,8 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
+
 
 // ✅ Serve images from public/images
 app.use("/images", express.static(path.join(__dirname, "public/images")));
