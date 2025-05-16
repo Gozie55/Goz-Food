@@ -56,16 +56,24 @@ body {
   font-family: 'Raleway', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(#29251c, #2c2306);
-  color: #d9e2f1;
+  background: linear-gradient(var(--primary), var(--primary-light));
+  color: var(--text-light);
   min-height: 100vh;
+  padding-top: 6rem;
 }
 
 #main-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3rem 10%;
+  padding: 1rem 10%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary);
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
 }
 
 #main-header #title {
@@ -75,11 +83,11 @@ body {
 }
 
 #main-header #title img {
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   object-fit: contain;
-  border-radius: 50%;
-  border: 2px solid #ffc404;
+  border-radius: var(--radius-round);
+  border: 2px solid var(--secondary);
 }
 
 #main-header button {
@@ -90,9 +98,9 @@ body {
 h1 {
   font-family: 'Lato', sans-serif;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: 0;
-  color: #ffc404;
+  color: var(--secondary);
   letter-spacing: 0.2rem;
   text-transform: uppercase;
 }
@@ -104,16 +112,16 @@ h1 {
   margin: 2rem auto;
   padding: 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: 1rem;
 }
 
 .meal-item {
-  background-color: #1d1a16;
-  border-radius: 1rem;
+  background-color: var(--light);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   text-align: center;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .meal-item article {
@@ -125,7 +133,7 @@ h1 {
 
 .meal-item img {
   width: 100%;
-  height: 20rem;
+  height: 15rem;
   object-fit: cover;
 }
 
@@ -133,21 +141,23 @@ h1 {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0.75rem 0;
+  color: var(--text-dark);
 }
 
 .meal-item-description {
   margin: 1rem;
+  color: var(--text-dark);
 }
 
 .meal-item-price {
   display: inline-block;
-  background-color: #312c1d;
-  color: #ffc404;
+  background-color: var(--primary);
+  color: var(--secondary);
   font-size: 0.9rem;
   font-weight: bold;
   padding: 0.5rem 2rem;
   margin: 0;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .meal-item-actions {
@@ -156,6 +166,7 @@ h1 {
 
 .cart h2 {
   margin: 1rem 0;
+  color: var(--text-dark);
 }
 
 .cart ul {
@@ -171,12 +182,12 @@ h1 {
 }
 
 .modal-actions .text-button {
-  color: #1d1a16;
+  color: var(--primary);
 }
 
 .modal-actions .text-button:hover,
 .modal-actions .text-button:active {
-  color: #312c1d;
+  color: var(--primary-light);
 }
 
 .cart-total {
@@ -185,7 +196,7 @@ h1 {
   margin: 2rem 0;
   font-size: 1.15rem;
   font-weight: bold;
-  color: #46443c;
+  color: var(--text-dark);
 }
 
 .cart-item {
@@ -197,6 +208,7 @@ h1 {
 
 .cart-item p {
   margin: 0;
+  color: var(--text-dark);
 }
 
 .cart-item-actions {
@@ -210,10 +222,10 @@ h1 {
   font-size: 1rem;
   width: 1.5rem;
   height: 1.5rem;
-  border-radius: 50%;
+  border-radius: var(--radius-round);
   border: none;
-  background-color: #312c1d;
-  color: #ffc404;
+  background-color: var(--primary);
+  color: var(--secondary);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -221,8 +233,8 @@ h1 {
 
 .cart-item-actions button:hover,
 .cart-item-actions button:active {
-  background-color: #1d1a16;
-  color: #ffab04;
+  background-color: var(--primary-light);
+  color: var(--secondary-dark);
 }
 
 .control {
@@ -234,6 +246,7 @@ h1 {
 .control label {
   font-weight: bold;
   margin-bottom: 0.5rem;
+  color: var(--text-dark);
 }
 
 .control input {
@@ -241,8 +254,8 @@ h1 {
   max-width: 20rem;
   font: inherit;
   padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--light-gray);
 }
 
 .control-row {
@@ -254,18 +267,18 @@ h1 {
 .button {
   font: inherit;
   cursor: pointer;
-  background-color: #ffc404;
-  border: 1px solid #ffc404;
-  color: #1f1a09;
+  background-color: var(--secondary);
+  border: 1px solid var(--secondary);
+  color: var(--text-dark);
   padding: 0.5rem 1.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .button:hover,
 .button:active {
-  background-color: #ffab04;
-  border-color: #ffab04;
-  color: #1f1a09;
+  background-color: var(--secondary-dark);
+  border-color: var(--secondary-dark);
+  color: var(--text-dark);
 }
 
 .text-button {
@@ -273,22 +286,26 @@ h1 {
   cursor: pointer;
   background-color: transparent;
   border: none;
-  color: #ffc404;
+  color: var(--secondary);
 }
 
 .text-button:hover,
 .text-button:active {
-  color: #ffab04;
+  color: var(--secondary-dark);
 }
 
 .modal {
-  background-color: #e4ddd4;
-  border-radius: 6px;
+  background-color: var(--light);
+  border-radius: var(--radius-lg);
   border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-lg);
   padding: 1rem;
   width: 80%;
   max-width: 40rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   animation: fade-slide-up 0.3s ease-out forwards;
 }
 
@@ -305,9 +322,9 @@ h1 {
   max-width: 25rem;
   margin: 2rem auto;
   padding: 1rem;
-  background-color: #f9b8b8;
-  color: #6d0b0b;
-  border-radius: 6px;
+  background-color: var(--accent);
+  color: var(--text-light);
+  border-radius: var(--radius-lg);
 }
 
 .error h2 {
@@ -321,17 +338,15 @@ h1 {
 @keyframes fade-slide-up {
   from {
     opacity: 0;
-    transform: translateY(4rem);
+    transform: translate(-50%, 4rem);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%);
   }
 }
 
-
-/* Footer - matching header theme */
 .footer {
   background-color: var(--primary);
   color: var(--text-light);
@@ -465,4 +480,23 @@ h1 {
   text-align: center;
   color: var(--light-gray);
   font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  #main-header {
+    padding: 1rem 5%;
+  }
+  #meals {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  #main-header #title img {
+    width: 2rem;
+    height: 2rem;
+  }
+  h1 {
+    font-size: 1.2rem;
+  }
 }
