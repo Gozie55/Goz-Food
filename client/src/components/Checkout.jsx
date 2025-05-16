@@ -3,10 +3,12 @@ import CartContext from "../store/CartContext";
 import Modal from "./UI/Modal";
 import { currencyFormatter } from "../Utility/formatting";
 import Button from "./UI/Button";
-import { UserProgressContext } from "../store/UserProgressContext"; // Corrected import
+import { UserProgressContext } from "../store/UserProgressContext";
 import useHttp from "../hooks/useHttp";
 
-import Input from "./UI/input"; // Ensure this import is correct
+import Input from "./UI/input";
+
+const BACKEND_URL = "https://goz-food-backend.onrender.com";  // <-- replace with your backend URL
 
 const requestConfig = {
   method: "POST",
@@ -25,7 +27,7 @@ export default function Checkout() {
     error,
     sendRequest,
     clearData,
-  } = useHttp("http://localhost:3000/orders", requestConfig);
+  } = useHttp(`${BACKEND_URL}/orders`, requestConfig);  // <-- use HTTPS backend URL here
 
   const cartTotal = cartCtx.items.reduce(
     (totalPrice, item) => totalPrice + item.quantity * item.price,
@@ -57,44 +59,6 @@ export default function Checkout() {
       })
     );
   }
-
-  // const useHttp = (url, config) => {
-  //   const [data, setData] = useState(null);
-  //   const [isLoading, setIsLoading] = useState(false);
-  //   const [error, setError] = useState(null);
-  
-  //   const sendRequest = async (body) => {
-  //     setIsLoading(true);
-  //     setError(null);
-  //     try {
-  //       const response = await fetch(url, {
-  //         ...config,
-  //         body,
-  //       });
-  
-  //       if (!response.ok) {
-  //         throw new Error("Something went wrong!");
-  //       }
-  
-  //       const resData = await response.json();
-  //       setData(resData); // ✅ Important
-  //     } catch (err) {
-  //       setError(err);
-  //     }
-  //     setIsLoading(false);
-  //   };
-  
-  //   const clearData = () => setData(null);
-  
-  //   return {
-  //     data,
-  //     isLoading,
-  //     error,
-  //     sendRequest,
-  //     clearData,
-  //   };
-  // };
-  
 
   let actions = (
     <>
@@ -140,8 +104,6 @@ export default function Checkout() {
         </div>
 
         {error && <p>{error.message || "Something went wrong."}</p>}
-
-        {/* {error && <Error title="Failed to submit order" message={error} />} */}
 
         <div className="modal-actions">{actions}</div>
       </form>
