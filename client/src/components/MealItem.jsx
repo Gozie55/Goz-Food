@@ -3,6 +3,7 @@ import Button from "./UI/Button.jsx";
 import { useContext } from "react";
 import CartContext from "../store/CartContext";
 
+
 const BACKEND_URL = "https://goz-food-backend.onrender.com";  // <-- replace with your backend URL
 
 export default function MealItem({ meal }) {
