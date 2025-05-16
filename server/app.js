@@ -20,16 +20,16 @@ await connectToDatabase(process.env.MONGODB_URI);
 
 app.use(bodyParser.json());
 
-// ✅ Serve images from public/images
-app.use("/images", express.static(path.join(__dirname, "public/images")));
-
-// ✅ Allow frontend to connect (CORS)
+// ✅ Allow frontend to connect (CORS) — move this BEFORE static files
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "https://goz-food-client.onrender.com"); 
   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
+// ✅ Serve images from public/images
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 // ✅ API routes
 app.get("/meals", async (req, res) => {
